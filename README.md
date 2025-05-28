@@ -91,3 +91,94 @@ outputs = { self, nixpkgs, flake-utils, ... }:
     }
   );
 ```
+
+## config macos system p
+
+```nix
+  system = {
+    stateVersion = 5;
+
+    keyboard = {
+      enableKeyMapping = true;
+    };
+
+    defaults = {
+      dock = {
+        autohide = true;
+        show-recents = false;
+        static-only = true;
+      };
+
+      finder = {
+        _FXShowPosixPathInTitle = true; # show full path in finder title
+        AppleShowAllExtensions = false;
+        FXEnableExtensionChangeWarning = false;
+        QuitMenuItem = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
+      };
+
+      trackpad = {
+        Clicking = true;
+      };
+
+      NSGlobalDomain = {
+        "com.apple.swipescrolldirection" = false;
+        "com.apple.sound.beep.feedback" = 0;
+
+        AppleInterfaceStyle = "Dark"; # dark mode
+
+        NSAutomaticCapitalizationEnabled = false; # disable auto capitalization
+        NSAutomaticDashSubstitutionEnabled = false; # disable auto dash substitution
+        NSAutomaticPeriodSubstitutionEnabled = false; # disable auto period substitution
+        NSAutomaticQuoteSubstitutionEnabled = false; # disable auto quote substitution
+        NSAutomaticSpellingCorrectionEnabled = false; # disable auto spelling correction
+        _HIHideMenuBar = true;
+      };
+
+      # Customize settings that not supported by nix-darwin directly
+      # see the source code of this project to get more undocumented options:
+      #    https://github.com/rgcr/m-cli
+      #
+      # All custom entries can be found by running `defaults read` command.
+      # or `defaults read xxx` to read a specific domain.
+      CustomUserPreferences = {
+        ".GlobalPreferences" = {
+          AppleSpacesSwitchOnActivate = true;
+        };
+        NSGlobalDomain = {
+          WebKitDeveloperExtras = true;
+        };
+        "com.apple.finder" = {
+          ShowExternalHardDrivesOnDesktop = false;
+          ShowHardDrivesOnDesktop = false;
+          ShowMountedServersOnDesktop = true;
+          ShowRemovableMediaOnDesktop = true;
+          _FXSortFoldersFirst = true;
+          FXDefaultSearchScope = "SCcf";
+        };
+        "com.apple.desktopservices" = {
+          DSDontWriteNetworkStores = true;
+          DSDontWriteUSBStores = true;
+        };
+        "com.apple.screensaver" = {
+          askForPassword = 1;
+          askForPasswordDelay = 0;
+        };
+        "com.apple.screencapture" = {
+          location = "~/Desktop";
+          type = "png";
+        };
+        "com.apple.AdLib" = {
+          allowApplePersonalizedAdvertising = false;
+        };
+        "com.apple.ImageCapture".disableHotPlug = true;
+      };
+
+      loginwindow = {
+        GuestEnabled = false;
+        SHOWFULLNAME = true;
+      };
+    };
+  };
+```
